@@ -36,6 +36,85 @@ angular.module('starter.controllers', [])
   }
 })
 
+.controller('BudgetCtrl', function($scope, $localstorage) {
+  var exchangerate_yen = $localstorage.get('currency_yen');
+  var exchangerate_hkd = $localstorage.get('currency_hkd');
+  var budget = $localstorage.get('budget');
+  $scope.budget = budget;
+
+  var d = new Date();
+  var dd = d.getDate();
+  var mm = d.getMonth()+1;
+  var weekday = new Array(7);
+  weekday[0]=  "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+
+  var n = weekday[d.getDay()];
+
+  $scope.withdrawals = $localstorage.getObject('withdraws');
+  console.log($scope.withdrawals);
+
+  $scope.withdraw = function(amount_jpy,amount_hkd) {
+    budget = $localstorage.get('budget');
+
+    if (budget === undefined) {
+      $localstorage.set('budget', 3000);
+      $localstorage.setObject('withdraws', []);
+      window.location.reload();
+    }
+
+    if (amount_jpy !== undefined && amount_jpy !== '') {
+      if (amount_hkd !== undefined && amount_hkd !== '') {
+        console.log('jpy and hkd');
+      } else {
+        var euro = amount_jpy/exchangerate_yen;
+
+        var array = $localstorage.getObject('withdraws');
+        array.unshift({amount: euro, date: n + ' ' + dd + '/' + mm});
+        console.log(array);
+        $localstorage.setObject('withdraws',array);
+
+        var outcome = budget - euro;
+        $scope.budget = outcome;
+        $localstorage.set('budget', outcome);
+        window.location.reload();
+        // $state.reload();
+      } 
+    } else if (amount_hkd !== undefined && amount_hkd !== '') {
+        var euro = amount_hkd/exchangerate_hkd;
+
+        var array = $localstorage.getObject('withdraws');
+        array.unshift({amount: euro, date: n + ' ' + dd + '/' + mm});
+        $localstorage.setObject('withdraws',array);
+
+        var outcome = budget - (amount_hkd/exchangerate_hkd);
+        $scope.budget = outcome;
+        $localstorage.set('budget', outcome);
+        window.location.reload();
+      }
+  }  
+
+  $scope.erase = function($index) {
+    if ($index === 0) {
+      var array = $localstorage.getObject('withdraws');
+      var budget = parseFloat($localstorage.get('budget'));
+
+      var new_budget = budget + array[0].amount;
+      $localstorage.set('budget',new_budget);
+
+      array.shift();
+      $localstorage.setObject('withdraws',array);
+      window.location.reload();
+    }
+  }
+})
+
+
 .controller('ChatsCtrl', function($scope, $localstorage) {
   $scope.answer = false;
   var x = $localstorage.get('currency_hkd');

@@ -1,14 +1,15 @@
-<ion-view view-title="Exchange">
+<ion-view view-title="Settings">
   <ion-content class="padding">
     <div style="text-align:center;margin-top:20px;"> 
-      <h1>€1 is:</h1>
+      <h1>€1.00 exchange rate is:</h1>
       <label class="item item-input">
         ¥&nbsp;<input type="number" ng-model="amount">
       </label></br>
       <label class="item item-input">
         $&nbsp;<input type="number" ng-model="amount2">
       </label></br>
-      <label class="item item-input">
+      Number of persons:
+      <label class="item item-input" style="margin-top:10px;">
         <input type="tel" ng-model="persons">
       </label>
       <button  class="button button-balanced" ng-click="click(amount,amount2,persons);" style="margin-top:40px;">Add Change Rate</button>

@@ -1,0 +1,33 @@
+<ion-view view-title="Budget">
+  <ion-content class="padding">
+    <div style="text-align:left;margin-top:20px;"> 
+      Total budget:<br/>
+      <label class="item item-input" style="margin-top:10px;"><i class="icon ion-paper-airplane"></i>&nbsp;€3000.00</label><br/>
+      Cash withdrawals:<br/>
+      <label class="item item-input" style="margin-top:10px;">
+        ¥&nbsp;<input type="tel" ng-model="amount_jpy">
+      </label>
+       <label class="item item-input">
+        $&nbsp;<input type="tel" ng-model="amount_hkd">
+      </label>
+      <button class="button button-balanced" ng-click="withdraw(amount_jpy,amount_hkd);" style="margin-top:20px;">Withdraw</button>
+      <br/><br/>
+      Left:<br/>
+      <label class="item item-input" style="margin-top:10px;"><i class="icon ion-calculator"></i>&nbsp;€{{budget}}</label>
+      <br/>
+      <p>Withdrawals:</p>
+      <label class="item item-input" ng-click="erase($index);" ng-repeat="withdraw in withdrawals"><i class="icon ion-beer"></i>&nbsp;€{{withdraw.amount}} on {{withdraw.date}}</label>
+      
+     <!--  <br/><br/>
+      <label class="item item-input" ng-click="erase();"><i class="icon ion-beer"></i>&nbsp;€100.00 on friday</label>
+      <label class="item item-input" ng-click="erase();"><i class="icon ion-beer"></i>&nbsp;€200.00 on sunday</label> -->
+
+
+
+      <!-- <div class="row"> -->
+<!--         <div class="col"><label class="item item-input">Budget</label></div>
+        <div class="col"><label class="item item-input">3000</label></div> -->
+      <!-- </div> -->
+    </div>
+  </ion-content>
+</ion-view>

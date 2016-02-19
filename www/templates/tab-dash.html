@@ -8,8 +8,11 @@
       </label>
       <button class="button button-balanced" ng-click="convert(amount);" style="margin-top:40px;">Convert to €</button>
       <br/><br/>
-      <h1 ng-show="answer" style="font-size:80px;">€ {{output}}</h1>
-      <h2 ng-show="answer">¥{{persons}} / €{{persons_euro}} per person ({{num_persons}})</h2>
+      <h1 ng-if="answer" style="font-size:80px;">€ {{output}}</h1>
+
+      <label class="item item-input" ng-if="answer">¥ {{persons}} per person ({{num_persons}})</label>
+      <label class="item item-input" ng-if="answer">€ {{persons_euro}} per person ({{num_persons}})</label>
+      <!-- <h2 ng-show="answer">¥{{persons}} / €{{persons_euro}} per person ({{num_persons}})</h2> -->
     </div>
   </ion-content>
 </ion-view>
