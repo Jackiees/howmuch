@@ -1,27 +1,5 @@
 angular.module('starter.controllers', [])
 
-// .factory ('StorageService', function ($localStorage) {
-
-//   $localStorage = $localStorage.$default({
-//     things: []
-//   });
-
-//   var _getAll = function () {
-//     return $localStorage.things;
-//   };
-//   var _add = function (thing) {
-//     $localStorage.things.push(thing);
-//   }
-//   var _remove = function (thing) {
-//     $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
-//   }
-//   return {
-//       getAll: _getAll,
-//       add: _add,
-//       remove: _remove
-//     };
-// })
-
 .factory('$localstorage', ['$window', function($window) {
   return {
     set: function(key, value) {
@@ -39,57 +17,42 @@ angular.module('starter.controllers', [])
   }
 }])
 
-// .controller('DashCtrl', function($scope, StorageService) {
 .controller('DashCtrl', function($scope, $localstorage) {
-  console.log('dashboard');
   $scope.answer = false;
-  // var x = StorageService.getAll();
   var x = $localstorage.get('currency_yen');
+  var num_persons = $localstorage.get('persons');
   var changeRate = x;
   $scope.yen = changeRate;
-  // $scope.amount = 111;
+  $scope.num_persons = num_persons;
 
   $scope.convert = function(amount) {
-    console.log('convert');
-    console.log(amount);
     var output = amount/changeRate;
-    console.log(output);
     $scope.output = Math.round(output * 100) / 100;
+    var perperson = amount/num_persons;
+    var perperson_euro = output/num_persons;
+    $scope.persons = Math.round(perperson * 100) / 100;
+    $scope.persons_euro = Math.round(perperson_euro * 100) / 100;
     $scope.answer = true;
   }
 })
 
 .controller('ChatsCtrl', function($scope, $localstorage) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  // $scope.chats = Chats.all();
-  // $scope.remove = function(chat) {
-  //   Chats.remove(chat);
-  // };
-  
   $scope.answer = false;
-  // var x = StorageService.getAll();
   var x = $localstorage.get('currency_hkd');
+  var num_persons = $localstorage.get('persons');
   var changeRate = x;
   $scope.hkd = changeRate;
-  // $scope.amount = 111;
+  $scope.num_persons = num_persons;
 
   $scope.convert = function(amount) {
-    console.log('convert');
-    console.log(amount);
     var output = amount/changeRate;
-    console.log(output);
     $scope.output = Math.round(output * 100) / 100;
+    var perperson = amount/num_persons;
+    var perperson_euro = output/num_persons;
+    $scope.persons = Math.round(perperson * 100) / 100;
+    $scope.persons_euro = Math.round(perperson_euro * 100) / 100;
     $scope.answer = true;
   } 
-   
-  
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
@@ -97,28 +60,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $localstorage) {
-// .controller('AccountCtrl', function($scope, StorageService) {
-  $scope.settings = {
-    enableFriends: true
-  };
+  $scope.amount = parseFloat($localstorage.get('currency_yen'));
+  $scope.amount2 = parseFloat($localstorage.get('currency_hkd'));
+  $scope.persons = $localstorage.get('persons');
 
-  // var x = StorageService.getAll();
-  var x = $localstorage.get('currency_yen');
-  var y = $localstorage.get('currency_hkd');
-  console.log(x);
-  $scope.amount = parseFloat(x);
-  $scope.amount2 = parseFloat(y);
-
-  $scope.click = function(amount,amount2) {
+  $scope.click = function(amount,amount2,persons) {
     $localstorage.set('currency_yen', amount);
     $localstorage.set('currency_hkd', amount2);
-    console.log($localstorage.get('currency_yen'));
-    console.log($localstorage.get('currency_hkd'));
-
-    // StorageService.remove();
-    // StorageService.add(amount);
-    console.log(amount);
-    console.log(amount2);
+    $localstorage.set('persons', persons);
     window.location.reload();
   };
 });
