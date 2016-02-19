@@ -2,13 +2,15 @@
   <ion-content class="padding">
   <div style="text-align:center;margin-top:20px;"> 
     <!-- <h1>¥ to € converter</h1> -->
-    <h1>Change rate is: {{yen}}</h1>
+    <h1>Change rate</h1><br/>
+    <h2 style="margin-top:-20px;">€1 = ¥{{yen}}<h2><br/>
     <label class="item item-input">
       <!-- <span class="input-label">¥</span> -->
       ¥&nbsp;<input type="tel" ng-model="amount">
     </label>
-      <button class="button button-dark" ng-click="convert(amount);" style="margin-top:40px;">Convert</button>
-    <h1>€ {{output}}</h1>
+      <button class="button button-balanced" ng-click="convert(amount);" style="margin-top:40px;">Convert to €</button>
+      <br/><br/>
+    <h1 ng-show="answer" style="font-size:80px;">€ {{output}}</h1>
       <!--     <h2>Welcome to Ionic</h2>
     <p>
     This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.

@@ -42,8 +42,9 @@ angular.module('starter.controllers', [])
 // .controller('DashCtrl', function($scope, StorageService) {
 .controller('DashCtrl', function($scope, $localstorage) {
   console.log('dashboard');
+  $scope.answer = false;
   // var x = StorageService.getAll();
-  var x = $localstorage.get('currency');
+  var x = $localstorage.get('currency_yen');
   var changeRate = x;
   $scope.yen = changeRate;
   // $scope.amount = 111;
@@ -54,10 +55,11 @@ angular.module('starter.controllers', [])
     var output = amount/changeRate;
     console.log(output);
     $scope.output = Math.round(output * 100) / 100;
+    $scope.answer = true;
   }
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, $localstorage) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -66,10 +68,28 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+  // $scope.chats = Chats.all();
+  // $scope.remove = function(chat) {
+  //   Chats.remove(chat);
+  // };
+  
+  $scope.answer = false;
+  // var x = StorageService.getAll();
+  var x = $localstorage.get('currency_hkd');
+  var changeRate = x;
+  $scope.hkd = changeRate;
+  // $scope.amount = 111;
+
+  $scope.convert = function(amount) {
+    console.log('convert');
+    console.log(amount);
+    var output = amount/changeRate;
+    console.log(output);
+    $scope.output = Math.round(output * 100) / 100;
+    $scope.answer = true;
+  } 
+   
+  
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
@@ -83,16 +103,22 @@ angular.module('starter.controllers', [])
   };
 
   // var x = StorageService.getAll();
-  var x = $localstorage.get('currency');
+  var x = $localstorage.get('currency_yen');
+  var y = $localstorage.get('currency_hkd');
   console.log(x);
-  $scope.amount = x;
+  $scope.amount = parseFloat(x);
+  $scope.amount2 = parseFloat(y);
 
-  $scope.click = function(amount) {
-    $localstorage.set('currency', amount);
-    console.log($localstorage.get('currency'));
+  $scope.click = function(amount,amount2) {
+    $localstorage.set('currency_yen', amount);
+    $localstorage.set('currency_hkd', amount2);
+    console.log($localstorage.get('currency_yen'));
+    console.log($localstorage.get('currency_hkd'));
+
     // StorageService.remove();
     // StorageService.add(amount);
     console.log(amount);
-    // window.location.reload();
+    console.log(amount2);
+    window.location.reload();
   };
 });
