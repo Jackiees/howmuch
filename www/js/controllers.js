@@ -1,31 +1,50 @@
 angular.module('starter.controllers', [])
 
-.factory ('StorageService', function ($localStorage) {
+// .factory ('StorageService', function ($localStorage) {
 
-  $localStorage = $localStorage.$default({
-    things: []
-  });
+//   $localStorage = $localStorage.$default({
+//     things: []
+//   });
 
-  var _getAll = function () {
-    return $localStorage.things;
-  };
-  var _add = function (thing) {
-    $localStorage.things.push(thing);
-  }
-  var _remove = function (thing) {
-    $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
-  }
+//   var _getAll = function () {
+//     return $localStorage.things;
+//   };
+//   var _add = function (thing) {
+//     $localStorage.things.push(thing);
+//   }
+//   var _remove = function (thing) {
+//     $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
+//   }
+//   return {
+//       getAll: _getAll,
+//       add: _add,
+//       remove: _remove
+//     };
+// })
+
+.factory('$localstorage', ['$window', function($window) {
   return {
-      getAll: _getAll,
-      add: _add,
-      remove: _remove
-    };
-})
+    set: function(key, value) {
+      $window.localStorage[key] = value;
+    },
+    get: function(key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function(key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+    getObject: function(key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
+}])
 
-.controller('DashCtrl', function($scope, StorageService) {
+// .controller('DashCtrl', function($scope, StorageService) {
+.controller('DashCtrl', function($scope, $localstorage) {
   console.log('dashboard');
-  var x = StorageService.getAll();
-  var changeRate = x[0];
+  // var x = StorageService.getAll();
+  var x = $localstorage.get('currency');
+  var changeRate = x;
   $scope.yen = changeRate;
   // $scope.amount = 111;
 
@@ -57,19 +76,23 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, StorageService) {
+.controller('AccountCtrl', function($scope, $localstorage) {
+// .controller('AccountCtrl', function($scope, StorageService) {
   $scope.settings = {
     enableFriends: true
   };
 
-  var x = StorageService.getAll();
+  // var x = StorageService.getAll();
+  var x = $localstorage.get('currency');
   console.log(x);
   $scope.amount = x;
 
   $scope.click = function(amount) {
-    StorageService.remove();
-    StorageService.add(amount);
+    $localstorage.set('currency', amount);
+    console.log($localstorage.get('currency'));
+    // StorageService.remove();
+    // StorageService.add(amount);
     console.log(amount);
-    window.location.reload();
+    // window.location.reload();
   };
 });
