@@ -72,29 +72,33 @@ angular.module('starter.controllers', [])
       if (amount_hkd !== undefined && amount_hkd !== '') {
         console.log('jpy and hkd');
       } else {
-        var euro = amount_jpy/exchangerate_yen;
-
+        var euro = Math.round((amount_jpy/exchangerate_yen) * 100) / 100;
+ 
         var array = $localstorage.getObject('withdraws');
         array.unshift({amount: euro, date: n + ' ' + dd + '/' + mm});
         console.log(array);
+        // var x = Math.round(array * 100) / 100;
         $localstorage.setObject('withdraws',array);
 
         var outcome = budget - euro;
+        var y = Math.round(outcome * 100) / 100;
         $scope.budget = outcome;
-        $localstorage.set('budget', outcome);
+        $localstorage.set('budget', y);
         window.location.reload();
         // $state.reload();
       } 
     } else if (amount_hkd !== undefined && amount_hkd !== '') {
-        var euro = amount_hkd/exchangerate_hkd;
+        var euro = Math.round((amount_hkd/exchangerate_hkd) * 100) / 100;
 
         var array = $localstorage.getObject('withdraws');
         array.unshift({amount: euro, date: n + ' ' + dd + '/' + mm});
+        // var x = Math.round(array * 100) / 100;
         $localstorage.setObject('withdraws',array);
 
-        var outcome = budget - (amount_hkd/exchangerate_hkd);
+        var outcome = budget - euro;
+        var y = Math.round(outcome * 100) / 100;
         $scope.budget = outcome;
-        $localstorage.set('budget', outcome);
+        $localstorage.set('budget', y);
         window.location.reload();
       }
   }  
